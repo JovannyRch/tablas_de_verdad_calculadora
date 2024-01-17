@@ -18,7 +18,7 @@ export default function Home() {
                   alt="App Logo"
                   className="aspect-[1/1] overflow-hidden rounded-lg object-contain object-center"
                   height="140"
-                  src="/images/logo.png"
+                  src="/tablas_de_verdad_calculadora/images/logo.png"
                   width="140"
                 />
               </div>
