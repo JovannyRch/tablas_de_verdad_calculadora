@@ -1,39 +1,8 @@
-import type { StepProcess } from "@/classes/StepProcess";
-import { TableRow as TRow } from "@/classes/TableRow";
 import { TruthTable } from "@/classes/TruthTable";
-import {
-  CardTitle,
-  CardDescription,
-  CardHeader,
-  CardContent,
-  Card,
-} from "@/components/ui/card";
-import {
-  TableHead,
-  TableRow,
-  TableHeader,
-  TableCell,
-  TableBody,
-  Table,
-} from "@/components/ui/table";
 import { useEffect, useState } from "react";
 import { TruthTableUI } from "./TruthTableUI";
-
-const createRows = (step: StepProcess, table: TruthTable): TRow[] => {
-  const rows: TRow[] = [];
-  const variables = step.isSingleVariable
-    ? [step.variable1]
-    : [step.variable1, step.variable2];
-  for (let i = 0; i < table.totalRows; i++) {
-    let combination = "";
-    for (let j = 0; j < variables.length; j++) {
-      combination += table.columns[variables[j]][i];
-    }
-    let result = table.columns[step.toString()]![i];
-    rows.push(new TRow(i, combination, result));
-  }
-  return rows;
-};
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { RocketIcon } from "@radix-ui/react-icons";
 
 interface ResultsProps {
   expression: string;
@@ -46,24 +15,14 @@ export const Results = ({
   setLoading,
   isLoading,
 }: ResultsProps) => {
-  const [steps, setSteps] = useState<StepProcess[]>([]);
-  const [rows, setRows] = useState<TRow[]>([]);
-  const [variables, setVariables] = useState<string[]>([]);
-
-  const totalSteps = steps.length;
+  const [table, setTable] = useState(new TruthTable("es", expression));
 
   useEffect(() => {
+    if (!isLoading) return;
     const table = new TruthTable("es", expression);
     table.convertInfixToPostfix();
     table.calculate();
-    const variables = table.variables;
-
-    const lastStep = table.steps[table.steps.length - 1];
-    const rows: TRow[] = createRows(lastStep, table);
-
-    setRows(rows);
-    setSteps(table.steps);
-    setVariables(variables);
+    setTable(table);
 
     const random = Math.floor(Math.random() * 1000);
     const timer = setTimeout(() => {
@@ -73,18 +32,23 @@ export const Results = ({
     return () => {
       clearTimeout(timer);
     };
-  }, [expression]);
+  }, [expression, isLoading]);
 
   if (isLoading) return;
 
   return (
     <>
-      {steps.map((step, index) => (
+      <Alert className="w-full max-w-lg mt-8">
+        <RocketIcon className="h-4 w-4" />
+        <AlertTitle>Evaluación</AlertTitle>
+        <AlertDescription>{table.tipo}</AlertDescription>
+      </Alert>
+      {table.steps.map((step, index) => (
         <TruthTableUI
           key={index}
-          expression={step.toString()}
-          variables={variables}
-          rows={rows}
+          step={step}
+          table={table}
+          index={step.index}
         />
       ))}
     </>

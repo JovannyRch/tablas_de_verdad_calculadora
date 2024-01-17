@@ -72,7 +72,8 @@ export default function Calculator() {
   };
 
   const onSubmit = () => {
-    setFinalExpression(expression);
+    const expressionWithoutSpaces = expression.replace(/\s/g, "");
+    setFinalExpression(expressionWithoutSpaces);
     setIsLoading(true);
   };
 
@@ -118,9 +119,12 @@ export default function Calculator() {
                 onClick={() => onSubmit()}
                 disabled={isLoading || !expression}
               >
-                Generar tabla de verdad&nbsp;
+                Generar tabla de verdad
                 {isLoading && (
-                  <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                  <>
+                    &nbsp;
+                    <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                  </>
                 )}
               </Button>
             </div>
@@ -135,6 +139,10 @@ export default function Calculator() {
           expression={finalExpression}
         />
       )}
+
+      <div className="flex items-center justify-center mt-8 text-gray-400 text-sm">
+        jovannyrch © {new Date().getFullYear()}
+      </div>
     </div>
   );
 }

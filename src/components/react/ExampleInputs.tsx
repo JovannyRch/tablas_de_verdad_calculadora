@@ -19,7 +19,7 @@ const Icon = () => {
   );
 };
 
-const expressions = ["A∧B", "¬A∧¬B", "B & C | D & E"];
+const expressions = ["A∧B", "¬A∧¬B", "B∧C∨D∧E"];
 
 export const ExampleInputs = ({ onClick }: ExampleInputsProps) => {
   return (
