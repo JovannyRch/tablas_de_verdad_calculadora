@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 import { Badge } from "@/components/ui/badge";
-import { useState, useRef } from "react";
+import { useState, useRef, type Ref, type MutableRefObject } from "react";
 import { ExampleInputs } from "./ExampleInputs";
 import { Results } from "./Results";
 import { ReloadIcon } from "@radix-ui/react-icons";
@@ -48,7 +48,7 @@ const getInitialExpression = () => {
 };
 
 export default function Calculator() {
-  const inputRef = useRef<HTMLInputElement>();
+  const inputRef = useRef<any>();
 
   const [expression, setExpression] = useState<string>(getInitialExpression);
 
@@ -64,7 +64,6 @@ export default function Calculator() {
       cursorPosition
     )}${operator}${expression.slice(cursorPosition)}`;
     setExpression(newValue);
-    //Set the cursor position after the operator
 
     inputRef.current.selectionStart = cursorPosition + 1;
     inputRef.current.selectionEnd = cursorPosition + 1;
