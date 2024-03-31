@@ -70,10 +70,10 @@ export const TruthTableUI = ({ table, step, index }: TruthTableProps) => {
               <TableRow key={`row-${row.index}`}>
                 {Array.from(row.combination).map((value, index) => (
                   <TableCell key={`row-${row.index}-combination-${index}`}>
-                    {value}
+                    {value === "0" ? "F" : "V"}
                   </TableCell>
                 ))}
-                <TableCell>{row.result}</TableCell>
+                <TableCell>{row.result === "0" ? "F" : "V"}</TableCell>
               </TableRow>
             ))}
           </TableBody>
