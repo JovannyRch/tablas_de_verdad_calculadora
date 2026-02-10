@@ -2,7 +2,7 @@ import { TruthTable } from "@/classes/TruthTable";
 import { useEffect, useState } from "react";
 import { TruthTableUI } from "./TruthTableUI";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { RocketIcon } from "@radix-ui/react-icons";
+import { CheckCircledIcon } from "@radix-ui/react-icons";
 
 interface ResultsProps {
   expression: string;
@@ -24,7 +24,7 @@ export const Results = ({
     table.calculate();
     setTable(table);
 
-    const random = Math.floor(Math.random() * 1000);
+    const random = Math.floor(Math.random() * 800) + 200;
     const timer = setTimeout(() => {
       setLoading(false);
     }, random);
@@ -34,23 +34,31 @@ export const Results = ({
     };
   }, [expression, isLoading]);
 
-  if (isLoading) return;
+  if (isLoading) return null;
 
   return (
-    <>
-      <Alert className="w-full max-w-lg mt-8">
-        <RocketIcon className="h-4 w-4" />
-        <AlertTitle>Evaluación</AlertTitle>
-        <AlertDescription>{table.tipo}</AlertDescription>
+    <div className="flex flex-col items-center w-full space-y-8 animate-in fade-in duration-700">
+      <Alert className="w-full border-primary/20 bg-primary/5 shadow-sm">
+        <CheckCircledIcon className="h-5 w-5 text-primary" />
+        <AlertTitle className="text-primary font-bold">
+          Evaluación Completada
+        </AlertTitle>
+        <AlertDescription className="text-foreground/80 mt-1 uppercase tracking-wide text-xs">
+          La expresión es una:{" "}
+          <span className="font-bold text-primary">{table.tipo}</span>
+        </AlertDescription>
       </Alert>
-      {table.steps.map((step, index) => (
-        <TruthTableUI
-          key={index}
-          step={step}
-          table={table}
-          index={step.index}
-        />
-      ))}
-    </>
+
+      <div className="w-full grid grid-cols-1 gap-8 place-items-center">
+        {table.steps.map((step, index) => (
+          <TruthTableUI
+            key={index}
+            step={step}
+            table={table}
+            index={step.index}
+          />
+        ))}
+      </div>
+    </div>
   );
 };
