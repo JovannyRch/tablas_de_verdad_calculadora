@@ -1,0 +1,14 @@
+[
+    {
+        "relation": [
+            "delegate_permission/common.handle_all_urls"
+        ],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "com.jovannyrch.tablasdeverdad",
+            "sha256_cert_fingerprints": [
+                "D6:3D:37:27:44:8E:D9:DD:53:D6:B6:F8:56:07:85:7D:4E:11:09:BC:A9:B7:D9:4A:BC:30:45:3C:B8:06:BB:DB"
+            ]
+        }
+    }
+]
